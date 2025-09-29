@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Tag } from 'src/tags/tag.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Post {
@@ -14,9 +21,10 @@ export class Post {
   @Column({ nullable: true })
   author?: string;
 
-  @Column('simple-array', { nullable: true })
-  tags?: string[];
-
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @ManyToMany(() => Tag, (tag) => tag.posts, { cascade: true })
+  @JoinTable()
+  tags: Tag[];
 }
