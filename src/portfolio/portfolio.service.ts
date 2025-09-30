@@ -18,4 +18,11 @@ export class PortfolioService {
     const portfolio = this.portfolioRepository.create(data);
     return this.portfolioRepository.save(portfolio);
   }
+
+  async findByUser(userId: number): Promise<Portfolio[]> {
+    return this.portfolioRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user'],
+    });
+  }
 }
